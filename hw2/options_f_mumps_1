@@ -1,0 +1,10 @@
+-bvp_gamma 0
+-bvp_k 5
+-bvp_c 3
+-bvp_m 1280
+
+-ksp_type preonly
+-pc_type lu
+-pc_factor_mat_solver_type mumps
+
+-ksp_converged_reason

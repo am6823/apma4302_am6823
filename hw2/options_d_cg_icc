@@ -1,0 +1,9 @@
+-bvp_gamma 0
+-bvp_k 5
+-bvp_c 3
+-bvp_m 1280
+
+-ksp_type cg
+-pc_type icc
+
+-ksp_converged_reason
