@@ -128,4 +128,5 @@ def convergence_study():
 
 
 if __name__ == "__main__":
+    plot_bvp_solution(np.linspace(0, 1, 100), np.sin(np.pi * np.linspace(0, 1, 100)), np.sin(np.pi * np.linspace(0, 1, 100)))
     convergence_study()
