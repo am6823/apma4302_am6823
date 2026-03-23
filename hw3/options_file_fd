@@ -1,0 +1,9 @@
+-rct_gamma 0.0
+-rct_p 2
+-da_grid_x 65
+-da_grid_y 65
+-ksp_type preonly
+-pc_type lu
+-snes_atol 1e-10
+-snes_rtol 1e-10
+-snes_fd
