@@ -1,0 +1,12 @@
+-firedrake_0_ksp_monitor
+-firedrake_0_ksp_type fgmres
+-firedrake_0_ksp_rtol 1.e-6
+-firedrake_0_ksp_atol 1.e-10
+-firedrake_0_pc_type fieldsplit
+-firedrake_0_pc_fieldsplit_type multiplicative
+-firedrake_0_fieldsplit_0_pc_type mg
+-firedrake_0_fieldsplit_1_pc_type mg
+-firedrake_0_fieldsplit_0_pc_mg_levels 8
+-firedrake_0_fieldsplit_1_pc_mg_levels 8
+-firedrake_0_fieldsplit_0_pc_mg_galerkin
+-firedrake_0_fieldsplit_1_pc_mg_galerkin
