@@ -1,0 +1,26 @@
+Score:   43/45
+
+Comments:
+    Q1:  10/10 -- good
+    Q2:  10/10 -- Good...just some comments, I get significantly better performance  on the c versions, but I suspect you're using a debuggable
+         build.  for timing it's always good to use an optimized build. Here's what I see on my machine for 2a
+        options_file_direct
+            SNESSolve              1 1.0 1.7093e+00 1.0 2.79e+08 1.0 0.0e+00 0.0e+00 0.0e+00 95 100  0  0  0  95 100  0  0  0   163
+        options_file_split_direct
+            SNESSolve              1 1.0 2.0220e+00 1.0 1.65e+08 1.0 0.0e+00 0.0e+00 0.0e+00 96 99  0  0  0  96 99  0  0  0    81
+        options_file_split_mg
+            SNESSolve              1 1.0 5.3260e-01 1.0 8.26e+08 1.0 0.0e+00 0.0e+00 0.0e+00 87 100  0  0  0  87 100  0  0  0  1551
+        
+        you using an optimized petsc for the c versions?  This can make a big difference
+        But I'm seing similar behavior to you for the python code.
+        And your analysis of the differences is good. I think the main cost in the firedrake code is FEM assembly which takes 
+        more flops (and is essentially pre-computed for the FD version)
+    Q3:  5/5: Nice figure
+    Q4:  18/20:  Some comments: code is good but I needed to make a few tweaks
+        a) good for using argparse
+        b) Somehow the monitor is not outputing vtks except the beginning and the end
+        c) I gave you the wrong definition of the Nu number but tried to fix it in your code
+        d) the correct version gives good estimates of Nu and your codeis working 
+        e) Also the code was meant to be adaptive, but you turned that off.  the rewitten version restores this
+        
+    EC:      

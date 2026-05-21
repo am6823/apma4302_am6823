@@ -6,7 +6,7 @@ import argparse
 
 # Parameters for Question 4
 
-N = 64
+N = 128
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--Ra", type=float, default=1.0e2)
@@ -153,9 +153,13 @@ def compute_diagnostics():
     # -int_top dT/dy dx = 1.
     dTdy_top = assemble(T_h.dx(1) * ds(4))
     dTdy_bottom = assemble(T_h.dx(1) * ds(3))
+    Tmean_bottom = assemble(T_h * ds(3))
+
+    
 
     Nu_top = -float(dTdy_top)
     Nu_bottom = -float(dTdy_bottom)
+    Nu = Nu_top/Tmean_bottom
 
     T_error = Function(V, name="T_minus_conductive")
     T_error.interpolate(T_h - (1.0 - y))
@@ -163,7 +167,7 @@ def compute_diagnostics():
     T_error_L2 = math.sqrt(float(assemble(T_error * T_error * dx)))
     velocity_L2 = math.sqrt(float(assemble(dot(v_h, v_h) * dx)))
 
-    return v_h, Nu_top, Nu_bottom, T_error_L2, velocity_L2
+    return v_h, Nu_top, Nu_bottom, Nu, T_error_L2, velocity_L2
 
 
 # Output
@@ -179,7 +183,7 @@ def write_output(time_value):
     omega_h.rename("vorticity")
     psi_h.rename("streamfunction")
 
-    v_h, Nu_top, Nu_bottom, T_error_L2, velocity_L2 = compute_diagnostics()
+    v_h, Nu_top, Nu_bottom, Nu, T_error_L2, velocity_L2 = compute_diagnostics()
 
     outfile.write(T_h, omega_h, psi_h, v_h, time=time_value)
 
@@ -187,6 +191,7 @@ def write_output(time_value):
         f"t = {time_value:.4e}, "
         f"Nu_top = {Nu_top:.8f}, "
         f"Nu_bottom = {Nu_bottom:.8f}, "
+        f"Nu = {Nu:.8f}, "
         f"||T-(1-y)||_L2 = {T_error_L2:.4e}, "
         f"||v||_L2 = {velocity_L2:.4e}"
     )
@@ -213,9 +218,13 @@ solver_params = {
     "ts_type": "bdf",
     "ts_bdf_order": 2,
     "ts_time_step": dt,
-    "ts_adapt_type": "none",
+    #"ts_adapt_type": "none",
+    "ts_adapt_type": "basic",
+    "ts_adapt_dt_max": 500.0,
+    "ts_adapt_dt_min": .1,
     "ts_exact_final_time": "matchstep",
     "ts_max_steps": 200000,
+    "ts_monitor": None,
 
     # Nonlinear solver
     "snes_type": "newtonls",
@@ -239,6 +248,7 @@ def monitor(ts, step, t, x):
 solver = firedrake_ts.DAESolver(
     problem,
     solver_parameters=solver_params,
+    monitor=monitor,
 )
 
 # Workaround for firedrake-ts callback issue with recent Firedrake/PETSc versions

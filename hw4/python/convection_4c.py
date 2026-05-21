@@ -221,7 +221,7 @@ solver_params = {
     "ts_type": "bdf",
     "ts_bdf_order": 2,
     "ts_time_step": dt,
-    "ts_adapt_type": "none",
+    "ts_adapt_type": "basoc",
     "ts_exact_final_time": "matchstep",
     "ts_max_steps": 200000,
 
