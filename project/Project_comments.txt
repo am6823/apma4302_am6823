@@ -1,0 +1,24 @@
+Score:  95/100 Nice job
+
+Comments: 
+   This is a very interesting project with a very specific aim to implement and test for both accuracy and speedup,
+      a parallel implementation of an already trained GNN and compare the results to it's serial version.
+
+      The problem is well posed (although most of the work seems to have already been done on the serial case)
+      The results are well presented and it's clear that the parallel implementation reproduces exactly the serial version.
+      But because of the relatively small meshes explored here the improvement in parallel performance (in strong scaling) was relatively
+      minimal. Still I believe the exercise was well worth doing and can clearly be expanded.
+
+      Overall the writing and code were clear, but I have a few suggestions to make the results a bit more accessible and interpretable.
+
+        1).  It would be good to actually visualize the finite element mesh as well as the true solution fields and the GNN proxies
+             There is one visualization of the mesh and its partitions here  but it's not clear about the actual ordering or connectivity 
+             (Figure 1 looks like a set of lines, each cut into 8 partitions.  I was expecting a Q1 mesh.  Given this visualization  I don't know what the actual memory layout looks like
+             in serial and parallel).  Paraview could actually be useful here for mesh and solution visualization.
+        2) It's a little less clear how the halos propagate through the NN. Again a simple visualization or some additional analysis might be useful
+        3) In a lot of problems, it seems that training is actually the expensive part of the computation.  What are your thoughts
+           on parallelizing the training part (and do you expect a different outcome than from the serial version)
+        4) have you done any scale analysis to argue how the communication and computation time should scale with N and P?
+        5) Somewhere it would actually be interesting to compare the full FEM solution with the GNN solution (I think you do this 
+        in the larger repo, but it would have been useful to see here.  The visualization could also be a little clear.)
+   
